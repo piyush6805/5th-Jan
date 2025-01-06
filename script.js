@@ -1,6 +1,6 @@
 // API key and API URL
-const API_KEY = "11d6d5ef829042d6ab74d94bb264c06d"; 
-const API_URL = "https://newsapi.org/v2/everything?q=";
+const API_KEY = '11d6d5ef829042d6ab74d94bb264c06d'; // Replace with your actual API key
+const API_URL = 'https://newsapi.org/v2/top-headlines?country=us&';
 
 const searchButton = document.getElementById("searchBtn");
 const searchInput = document.getElementById("search");
@@ -19,12 +19,17 @@ searchButton.addEventListener("click", () => {
 
 // Function to fetch news
 function fetchNews(query) {
-  const url = `${API_URL}${query}&apiKey=${API_KEY}`;
+  const url = `${API_URL}q=${query}&apiKey=${API_KEY}`;
   
   showLoadingSpinner();
 
   fetch(url)
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then(data => {
       hideLoadingSpinner();
       displayNews(data.articles);
