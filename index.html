@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>News Search WebApp</title>
+  <title>News Explorer</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
-    <h1>News Search</h1>
-    <div class="search-bar">
-      <input type="text" id="search" placeholder="Enter a keyword to search news..." />
-      <button id="searchBtn">Search</button>
+    <div class="container">
+      <h1>News Explorer</h1>
+      <div class="search-container">
+        <input type="text" id="search" placeholder="Search for news...">
+        <button id="searchBtn">Search</button>
+      </div>
     </div>
   </header>
 
-  <main>
-    <div id="loading-spinner" class="spinner hidden"></div>
-    <div id="news-container" class="news-container">
-      <p class="placeholder">Enter a keyword and click "Search" to find news.</p>
-    </div>
+  <main class="container">
+    <div id="loading-spinner"></div>
+    <div id="news-container"></div>
   </main>
-
 
   <script src="script.js"></script>
 </body>

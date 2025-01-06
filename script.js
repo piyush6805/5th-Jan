@@ -1,6 +1,6 @@
 // API key and API URL
-const API_KEY = '11d6d5ef829042d6ab74d94bb264c06d'; // Replace with your actual API key
-const API_URL = 'https://newsapi.org/v2/top-headlines?country=us&';
+const API_KEY = '5d4b338b-5ffe-435e-be9b-08fdb2869327';
+const API_URL = 'https://content.guardianapis.com/search?';
 
 const searchButton = document.getElementById("searchBtn");
 const searchInput = document.getElementById("search");
@@ -19,7 +19,8 @@ searchButton.addEventListener("click", () => {
 
 // Function to fetch news
 function fetchNews(query) {
-  const url = `${API_URL}q=${query}&apiKey=${API_KEY}`;
+  // Adding show-fields parameter to get thumbnails and body text
+  const url = `${API_URL}q=${query}&show-fields=thumbnail,bodyText&api-key=${API_KEY}`;
   
   showLoadingSpinner();
 
@@ -32,12 +33,12 @@ function fetchNews(query) {
     })
     .then(data => {
       hideLoadingSpinner();
-      displayNews(data.articles);
+      displayNews(data.response.results);
     })
     .catch(error => {
       console.error("Error fetching news:", error);
       hideLoadingSpinner();
-      newsContainer.innerHTML = `<p class="placeholder">Failed to fetch news. Please try again later.</p>`;
+      newsContainer.innerHTML = `<p class="placeholder">${error.message}</p>`;
     });
 }
 
@@ -54,10 +55,15 @@ function displayNews(articles) {
     const newsCard = document.createElement("div");
     newsCard.className = "news-card";
 
+    const thumbnail = article.fields.thumbnail 
+      ? `<img src="${article.fields.thumbnail}" alt="Article thumbnail">`
+      : '';
+
     newsCard.innerHTML = `
-      <h2>${article.title}</h2>
-      <p>${article.description || "No description available."}</p>
-      <a href="${article.url}" target="_blank">Read more</a>
+      ${thumbnail}
+      <h2>${article.webTitle}</h2>
+      <p>${article.fields.bodyText?.substring(0, 200) || "No description available."}...</p>
+      <a href="${article.webUrl}" target="_blank">Read more</a>
     `;
 
     newsContainer.appendChild(newsCard);
